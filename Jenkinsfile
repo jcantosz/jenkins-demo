@@ -2,38 +2,18 @@ throttle(['throttleDocker']) {
   node('docker') {
     wrap([$class: 'AnsiColorBuildWrapper']) {
       try{
-        stage('Setup') {
+        stage('Clone repo'){
           checkout scm
-          sh '''
-            ./ci/docker-down.sh
-            ./ci/docker-up.sh
-          '''
         }
-        stage('Test'){
-          parallel (
-            "unit": {
-              sh '''
-                ./ci/test/unit.sh
-              '''
-            },
-            "functional": {
-              sh '''
-                ./ci/test/functional.sh
-              '''
-            }
-          )
-        }
-        stage('Capacity Test') {
+        stage('Build Image'){
           sh '''
-            ./ci/test/stress.sh
+            echo $SERVER_IP swarm | sudo tee -a /etc/hosts
           '''
-        }
-      }
-      finally {
-        stage('Cleanup') {
-          sh '''
-            ./ci/docker-down.sh
-          '''
+          docker.withServer('tcp://swarm:2376', 'dockerswarm'){
+					  docker.image('mysql:5').withRun('-p 3306:3306') {
+					  /* do things */
+					  }
+          }
         }
       }
     }
