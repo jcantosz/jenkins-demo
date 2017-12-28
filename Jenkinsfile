@@ -10,9 +10,9 @@ throttle(['throttleDocker']) {
             echo 10.0.2.181 swarm | sudo tee -a /etc/hosts
           '''
           docker.withServer('tcp://swarm:2376', 'dockerswarm'){
-					  docker.image('mysql:5').withRun('-p 3306:3306') {
+					  docker.image('alpine:latest').withRun('-p 3306:3306') {
 					  /* do things */
-						sh 'sleep 500 '
+						sh 'echo hi!'
 					  }
           }
         }
