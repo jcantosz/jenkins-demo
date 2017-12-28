@@ -12,6 +12,7 @@ throttle(['throttleDocker']) {
           docker.withServer('tcp://swarm:2376', 'dockerswarm'){
 					  docker.image('mysql:5').withRun('-p 3306:3306') {
 					  /* do things */
+						sh 'sleep 500 '
 					  }
           }
         }
