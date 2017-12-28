@@ -7,7 +7,7 @@ throttle(['throttleDocker']) {
         }
         stage('Build Image'){
           sh '''
-            echo $SERVER_IP swarm | sudo tee -a /etc/hosts
+            echo 10.0.2.181 swarm | sudo tee -a /etc/hosts
           '''
           docker.withServer('tcp://swarm:2376', 'dockerswarm'){
 					  docker.image('mysql:5').withRun('-p 3306:3306') {
