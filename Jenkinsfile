@@ -16,6 +16,13 @@ throttle(['throttleDocker']) {
           }
         }
       }
+      finally {
+        stage('Test'){
+          sh '''
+            echo "ok"
+          '''
+        }
+      }
     }
   }
 }
